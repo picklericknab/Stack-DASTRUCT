@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Stack Visualizer — DSA Lab</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Outfit:wght@300;400;500;600;700;900&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════
+       HEADER
+  ════════════════════════════════════════════ -->
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="brand">
+        <span class="brand-icon">⬡</span>
+        <div>
+          <span class="brand-title">DSA Lab</span>
+          <span class="brand-sub">Algorithm Visualizer</span>
+        </div>
+      </div>
+      <nav class="header-actions">
+        <button id="btn-theme" class="icon-btn" title="Toggle theme">◑</button>
+        <button id="btn-fullscreen" class="icon-btn" title="Fullscreen">⛶</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════════════
+       HERO / TITLE
+  ════════════════════════════════════════════ -->
+  <section class="hero">
+    <div class="hero-badge">Data Structures</div>
+    <h1 class="hero-title">Stack <span class="accent">Visualizer</span></h1>
+    <p class="hero-desc">Explore the LIFO principle with real-time, animated operations.</p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       MAIN LAYOUT
+  ════════════════════════════════════════════ -->
+  <main class="app-layout">
+
+    <!-- ── LEFT PANEL: Controls ── -->
+    <aside class="panel panel-controls">
+
+      <div class="card">
+        <h2 class="card-title">Operations</h2>
+
+        <!-- Input row -->
+        <div class="input-group">
+          <input id="val-input" type="number" placeholder="Enter value…" min="-999" max="9999" />
+          <button id="btn-random" class="icon-btn small" title="Random number">⟳</button>
+        </div>
+
+        <!-- Primary buttons -->
+        <div class="btn-grid">
+          <button id="btn-push" class="op-btn push">
+            <span class="btn-icon">↑</span>Push
+          </button>
+          <button id="btn-pop" class="op-btn pop">
+            <span class="btn-icon">↓</span>Pop
+          </button>
+          <button id="btn-peek" class="op-btn peek">
+            <span class="btn-icon">◎</span>Peek
+          </button>
+          <button id="btn-clear" class="op-btn clear">
+            <span class="btn-icon">✕</span>Clear
+          </button>
+        </div>
+
+        <!-- Undo -->
+        <button id="btn-undo" class="op-btn undo full-width">
+          <span class="btn-icon">↺</span> Undo Last
+        </button>
+      </div>
+
+      <!-- Speed -->
+      <div class="card">
+        <h2 class="card-title">Speed Control</h2>
+        <div class="speed-row">
+          <span class="speed-label">Slow</span>
+          <input id="speed-slider" type="range" min="1" max="5" value="3" />
+          <span class="speed-label">Fast</span>
+        </div>
+        <div class="speed-display">Speed: <span id="speed-val">3</span> / 5</div>
+      </div>
+
+      <!-- Stack Info -->
+      <div class="card">
+        <h2 class="card-title">Stack Info</h2>
+        <div class="info-grid">
+          <div class="info-item">
+            <span class="info-label">Size</span>
+            <span class="info-value" id="info-size">0</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Top</span>
+            <span class="info-value" id="info-top">—</span>
+          </div>
+          <div class="info-item status-item">
+            <span class="info-label">Status</span>
+            <span class="info-value status-badge empty" id="info-status">Empty</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Error message -->
+      <div id="error-msg" class="error-msg hidden"></div>
+
+    </aside>
+
+    <!-- ── CENTER: Visualization ── -->
+    <section class="panel panel-viz" id="panel-viz">
+
+      <div class="viz-header">
+        <h2 class="card-title">Visualization</h2>
+        <div class="viz-labels">
+          <span class="top-label" id="top-label">— Stack Empty —</span>
+        </div>
+      </div>
+
+      <!-- Stack arena -->
+      <div class="stack-arena" id="stack-arena">
+        <div class="stack-track" id="stack-track">
+          <!-- Stack frames go here -->
+        </div>
+        <div class="stack-base">
+          <span>STACK BASE</span>
+        </div>
+        <div class="empty-state" id="empty-state">
+          <div class="empty-icon">◫</div>
+          <p>Stack is empty</p>
+          <small>Push a value to get started</small>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ── RIGHT PANEL: Logs + Education ── -->
+    <aside class="panel panel-info">
+
+      <!-- Log -->
+      <div class="card card-log">
+        <h2 class="card-title">Operation Log</h2>
+        <ul class="log-list" id="log-list">
+          <li class="log-item hint">Waiting for operations…</li>
+        </ul>
+        <button id="btn-clear-log" class="ghost-btn">Clear Log</button>
+      </div>
+
+      <!-- Education -->
+      <div class="card card-edu">
+        <h2 class="card-title">What is a Stack?</h2>
+        <p class="edu-text">
+          A <strong>Stack</strong> is a linear data structure that follows the
+          <em>Last In, First Out (LIFO)</em> principle — the last element inserted
+          is the first one to be removed.
+        </p>
+
+        <div class="edu-examples">
+          <h3>Real-world Examples</h3>
+          <ul>
+            <li>🍽️ Stack of plates</li>
+            <li>↩️ Browser back button</li>
+            <li>✏️ Undo / Redo in editors</li>
+            <li>📞 Function call stack</li>
+          </ul>
+        </div>
+
+        <div class="complexity-table">
+          <h3>Time Complexity</h3>
+          <table>
+            <thead>
+              <tr><th>Operation</th><th>Complexity</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Push</td><td class="big-o">O(1)</td></tr>
+              <tr><td>Pop</td><td class="big-o">O(1)</td></tr>
+              <tr><td>Peek</td><td class="big-o">O(1)</td></tr>
+              <tr><td>Search</td><td class="big-o">O(n)</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="ops-guide">
+          <h3>Operations</h3>
+          <dl>
+            <dt>Push</dt><dd>Add element to the top</dd>
+            <dt>Pop</dt><dd>Remove element from the top</dd>
+            <dt>Peek</dt><dd>View top element without removing</dd>
+            <dt>isEmpty</dt><dd>Check if stack is empty</dd>
+          </dl>
+        </div>
+      </div>
+
+    </aside>
+  </main>
+
+  <!-- ═══════════════════════════════════════════
+       FOOTER
+  ════════════════════════════════════════════ -->
+  <footer class="site-footer">
+    <span>Stack Visualizer · DSA Lab</span>
+    <span>Built with ♥ for learners everywhere</span>
+  </footer>
+
+  <!-- Audio contexts (Web Audio API — no external files) -->
+  <script src="script.js"></script>
+</body>
+</html>
